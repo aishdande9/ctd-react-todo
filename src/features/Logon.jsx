@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 function Logon({
-  onSetEmail = () => {},
-  onSetToken = () => {},
+  onSetEmail,
+  onSetToken,
 }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

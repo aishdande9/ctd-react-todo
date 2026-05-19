@@ -114,9 +114,10 @@ function TodosPage({ token }) {
         },
         credentials: 'include',
         body: JSON.stringify({
-            title: originalTodo.title,
-            isCompleted: true,
-          }),
+          title: originalTodo.title,
+          isCompleted: true,
+          createdAt: originalTodo.createdAt,
+        }),
       });
 
       if (!response.ok) {
