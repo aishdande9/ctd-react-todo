@@ -30,10 +30,11 @@ function TodosPage({ token }) {
         }
 
         const data = await response.json();
-    
+        console.log('FETCH TODOS DATA:', data);
 
         setTodoList(data.tasks);
       } catch (error) {
+        console.log('FETCH TODOS ERROR:', error);
         setError(error.message);
       } finally {
         setIsTodoListLoading(false);
@@ -105,7 +106,6 @@ function TodosPage({ token }) {
 
     try {
       setError('');
-
       const response = await fetch(`/api/tasks/${id}`, {
         method: 'PATCH',
         headers: {
@@ -115,11 +115,12 @@ function TodosPage({ token }) {
         credentials: 'include',
         body: JSON.stringify({
           title: originalTodo.title,
+
           isCompleted: true,
-          createdAt: originalTodo.createdAt,
+           
+         
         }),
       });
-
       if (!response.ok) {
         throw new Error('Failed to complete todo');
       }
@@ -164,7 +165,7 @@ function TodosPage({ token }) {
           body: JSON.stringify({
             title: editedTodo.title,
             isCompleted: editedTodo.isCompleted,
-            createdAt: editedTodo.createdAt,
+           
           }),
         }
       );
