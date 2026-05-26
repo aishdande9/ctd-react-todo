@@ -1,6 +1,6 @@
-import TextInputWithLabel from "../../shared/TextInputWithLabel";
-import { isValidTodoTitle } from "../../utils/todoValidation";
-import { useEditableTitle } from "../../hooks/useEditableTitle";
+import TextInputWithLabel from "../../../shared/TextInputWithLabel";
+import { isValidTodoTitle } from "../../../utils/todoValidation";
+import { useEditableTitle } from "../../../hooks/useEditableTitle";
 
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
   const {
@@ -36,11 +36,12 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
       <form onSubmit={handleUpdate}>
         {isEditing ? (
           <>
-            <TextInputWithLabel
-              value={workingTitle}
-              onChange={handleEdit}
-            />
-
+     <TextInputWithLabel
+  elementId={`editTodo-${todo.id}`}
+  labelText="Edit Todo"
+  value={workingTitle}
+  onChange={handleEdit}
+/>
             <button type="button" onClick={cancelEdit}>
               Cancel
             </button>
