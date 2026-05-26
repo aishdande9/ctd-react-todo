@@ -101,6 +101,7 @@ function TodosPage({ token }) {
     });
 
     setTodoList(updatedTodos);
+    
 
     try {
       setError('');
