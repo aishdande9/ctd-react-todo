@@ -60,11 +60,24 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
-    setEmail('');
-    setToken('');
+  const logout = async () => {
+    try {
+      if (token) {
+        await fetch('/user/logoff', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': token,
+          },
+          credentials: 'include',
+        });
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      setEmail('');
+      setToken('');
+    }
   };
-
   const value = {
     email,
     token,

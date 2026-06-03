@@ -262,7 +262,21 @@ function TodosPage() {
         </div>
       )}
 
-      {error && <p>{error}</p>}
+{error && (
+  <div>
+    <p>{error}</p>
+
+    <button
+      onClick={() =>
+        dispatch({
+          type: TODO_ACTIONS.CLEAR_ERROR,
+        })
+      }
+    >
+      Clear Error
+    </button>
+  </div>
+)}
 
       {isTodoListLoading && <p>Loading todos...</p>}
 
