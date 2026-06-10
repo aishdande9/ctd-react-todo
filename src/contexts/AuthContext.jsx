@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       if (token) {
-        await fetch('/user/logoff', {
+        await fetch('/api/users/logoff', {
           method: 'POST',
           headers: {
             'X-CSRF-TOKEN': token,
@@ -71,11 +71,18 @@ export function AuthProvider({ children }) {
           credentials: 'include',
         });
       }
-    } catch (error) {
-      console.error('Logout failed:', error);
-    } finally {
+  
       setEmail('');
       setToken('');
+  
+      return { success: true };
+    } catch (error) {
+      console.error('Logout failed:', error);
+  
+      return {
+        success: false,
+        error: error.message,
+      };
     }
   };
   const value = {
