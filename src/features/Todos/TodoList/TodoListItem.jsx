@@ -2,7 +2,7 @@ import TextInputWithLabel from "../../../shared/TextInputWithLabel";
 import { isValidTodoTitle } from "../../../utils/todoValidation";
 import { useEditableTitle } from "../../../hooks/useEditableTitle";
 
-function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
+function TodoListItem({ todo, onCompleteTodo, onUpdateTodo, onDeleteTodo, }) {
   const {
     isEditing,
     workingTitle,
@@ -53,7 +53,7 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
             >
               Update
             </button>
-          </>
+            </>
         ) : (
           <>
             <label>
@@ -65,9 +65,11 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
               />
             </label>
 
-            <span onClick={startEditing}>
-              {todo.title}
-            </span>
+            <span onClick={startEditing}>{todo.title}</span>
+
+<button type="button" onClick={() => onDeleteTodo(todo.id)}>
+  Delete
+</button>
           </>
         )}
       </form>

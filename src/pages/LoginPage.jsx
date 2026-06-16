@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
+import '../features/Logon.css';
 
 function LoginPage() {
     const { login, isAuthenticated } = useAuth();
@@ -35,40 +36,40 @@ function LoginPage() {
 
     setIsLoggingOn(false);
   };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {authError && <p>{authError}</p>}
-
-      <div>
-        <label htmlFor="email">Email</label>
-
-        <input
-          id="email"
-          type="email"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="password">Password</label>
-
-        <input
-          id="password"
-          type="password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-      </div>
-
-      <button type="submit" disabled={isLoggingOn}>
-        {isLoggingOn ? 'Logging in...' : 'Log On'}
-      </button>
-    </form>
-  );
+    return (
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Log In</h2>
+    
+        {authError && <p className="error-message">{authError}</p>}
+    
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+    
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+    
+        <button type="submit" disabled={isLoggingOn}>
+          {isLoggingOn ? 'Logging in...' : 'Log On'}
+        </button>
+      </form>
+    );
+  
 }
 
 export default LoginPage;
