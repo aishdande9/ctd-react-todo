@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import './Logon.css';
 
 function Logon() {
   const { login } = useAuth();
@@ -25,37 +26,41 @@ function Logon() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {authError && <p>{authError}</p>}
-
-      <div>
-        <label htmlFor="email">Email</label>
-
-        <input
-          id="email"
-          type="email"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="password">Password</label>
-
-        <input
-          id="password"
-          type="password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-      </div>
-
-      <button type="submit" disabled={isLoggingOn}>
-        {isLoggingOn ? 'Logging in...' : 'Log On'}
-      </button>
-    </form>
+    <form className="login-form" onSubmit={handleSubmit}>
+    <h2>Log In</h2>
+  
+    {authError && (
+      <p className="error-message">{authError}</p>
+    )}
+  
+    <div className="form-group">
+      <label htmlFor="email">Email</label>
+  
+      <input
+        id="email"
+        type="email"
+        required
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+      />
+    </div>
+  
+    <div className="form-group">
+      <label htmlFor="password">Password</label>
+  
+      <input
+        id="password"
+        type="password"
+        required
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
+    </div>
+  
+    <button type="submit" disabled={isLoggingOn}>
+      {isLoggingOn ? 'Logging in...' : 'Log On'}
+    </button>
+  </form>
   );
 }
 
