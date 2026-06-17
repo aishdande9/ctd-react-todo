@@ -3,21 +3,50 @@ import TodoListItem from './TodoListItem.jsx';
 
 function TodoList({
   todoList,
-  dataVersion,
   onCompleteTodo,
   onUpdateTodo,
+  onDeleteTodo,
+  dataVersion,
+  statusFilter = 'active',  // Add this prop with default
 }) {
   const filteredTodoList = useMemo(() => {
+    
+
+    let filteredTodos;
+    switch (statusFilter) {
+      case 'completed':
+        filteredTodos = todoList.filter((todo) => todo.isCompleted);
+        break;
+      case 'active':
+        filteredTodos = todoList.filter((todo) => !todo.isCompleted);
+        break;
+      case 'all':
+      default:
+        filteredTodos = todoList;
+        break;
+    }
 
     return {
       version: dataVersion,
-      todos: todoList.filter(
-        (todo) => !todo.isCompleted
-      ),
+      todos: filteredTodos,
     };
-  }, [todoList, dataVersion]);
+  }, [todoList, dataVersion, statusFilter]);
 
-  return (
+  const getEmptyMessage = () => {
+    switch (statusFilter) {
+      case 'completed':
+        return 'No completed todos yet. Complete some tasks to see them here.';
+      case 'active':
+        return 'No active todos. Add a todo above to get started.';
+      case 'all':
+      default:
+        return 'Add todo above to get started.';
+    }
+  };
+
+  return filteredTodoList.todos.length === 0 ? (
+    <p>{getEmptyMessage()}</p>
+  ) : (
     <ul>
       {filteredTodoList.todos.map((todo) => (
         <TodoListItem
@@ -25,6 +54,7 @@ function TodoList({
           todo={todo}
           onCompleteTodo={onCompleteTodo}
           onUpdateTodo={onUpdateTodo}
+          onDeleteTodo={onDeleteTodo}
         />
       ))}
     </ul>

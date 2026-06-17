@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 // Create the context
 const AuthContext = createContext();
@@ -8,9 +8,7 @@ export function useAuth() {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error(
-      'useAuth must be used within an AuthProvider'
-    );
+    throw new Error("useAuth must be used within an AuthProvider");
   }
 
   return context;
@@ -18,17 +16,17 @@ export function useAuth() {
 
 // Provider component
 export function AuthProvider({ children }) {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
+  const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
 
   const login = async (userEmail, password) => {
     try {
-      const response = await fetch('/api/users/logon', {
-        method: 'POST',
+      const response = await fetch("/api/users/logon", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({
           email: userEmail,
           password,
@@ -37,11 +35,7 @@ export function AuthProvider({ children }) {
 
       const data = await response.json();
 
-      if (
-        response.status === 200 &&
-        data.name &&
-        data.csrfToken
-      ) {
+      if (response.status === 200 && data.name && data.csrfToken) {
         setEmail(data.name);
         setToken(data.csrfToken);
 
@@ -63,19 +57,26 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       if (token) {
-        await fetch('/user/logoff', {
-          method: 'POST',
+        await fetch("/api/users/logoff", {
+          method: "POST",
           headers: {
-            'X-CSRF-TOKEN': token,
+            "X-CSRF-TOKEN": token,
           },
-          credentials: 'include',
+          credentials: "include",
         });
       }
+
+      setEmail("");
+      setToken("");
+
+      return { success: true };
     } catch (error) {
-      console.error('Logout failed:', error);
-    } finally {
-      setEmail('');
-      setToken('');
+      console.error("Logout failed:", error);
+
+      return {
+        success: false,
+        error: error.message,
+      };
     }
   };
   const value = {
@@ -86,9 +87,5 @@ export function AuthProvider({ children }) {
     logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
