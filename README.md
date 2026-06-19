@@ -154,3 +154,29 @@ Through this project I gained experience with:
 * Error handling
 * Responsive UI design
 
+
+## Technologies Used
+- React
+- React Router
+- Context API
+- useReducer
+- CSS Modules
+- DOMPurify
+- Vite
+
+## Design Decisions
+- Used CSS Modules to avoid global style conflicts.
+- Added loading and error states for better UX.
+- Used useReducer for centralized state management.
+
+## Future Improvements
+- Dark mode
+- Due dates
+- Categories/tags
+- Drag and drop sorting
+
+## License
+MIT
+
+
+
