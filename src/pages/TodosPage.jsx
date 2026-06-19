@@ -10,7 +10,10 @@ import useDebounce from "../utils/useDebounce.js";
 import { useSearchParams } from "react-router";
 import StatusFilter from "../shared/StatusFilter.jsx";
 
-import "./TodoPage.css";
+import styles from "./TodosPage.module.css";
+import DOMPurify from "dompurify";
+
+
 
 import {
   todoReducer,
@@ -106,6 +109,12 @@ function TodosPage() {
   };
 
   async function addTodo(todoTitle) {
+    const cleanTitle = DOMPurify.sanitize(todoTitle).trim();
+
+    if (!cleanTitle) {
+      return;
+    }
+  
     const newTodo = {
       id: Date.now(),
       title: todoTitle,
@@ -202,7 +211,20 @@ function TodosPage() {
   }
 
   async function updateTodo(editedTodo) {
-    const originalTodo = todoList.find((todo) => todo.id === editedTodo.id);
+    const cleanTitle = DOMPurify.sanitize(editedTodo.title).trim();
+
+    if (!cleanTitle) {
+      return;
+    }
+
+    const sanitizedEditedTodo = {
+      ...editedTodo,
+      title: cleanTitle,
+    };
+  
+  
+
+    const originalTodo = todoList.find((todo) => todo.id === sanitizedEditedTodo.id);
 
     if (!originalTodo) {
       return;
@@ -210,11 +232,11 @@ function TodosPage() {
 
     dispatch({
       type: TODO_ACTIONS.UPDATE_TODO_START,
-      payload: { editedTodo },
+      payload: { ditedTodo: sanitizedEditedTodo },
     });
 
     try {
-      const response = await fetch(`/api/tasks/${editedTodo.id}`, {
+      const response = await fetch(`/api/tasks/${sanitizedEditedTodo.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -222,8 +244,8 @@ function TodosPage() {
         },
         credentials: "include",
         body: JSON.stringify({
-          title: editedTodo.title,
-          isCompleted: editedTodo.isCompleted,
+          title: sanitizedEditedTodo.title,
+          isCompleted: sanitizedEditedTodo.isCompleted,
         }),
       });
 
@@ -277,14 +299,14 @@ function TodosPage() {
     }
   }
   return (
-    <div className="todos-page">
+    <div className={styles.todosPage}>
       <img
-        className="todo-hero-image"
+       className={styles.todoHeroImage}
         src="https://play-lh.googleusercontent.com/Tmvcz3peEhD_lFIttma9n52YQKAXLrdiwXRk8N95EIufySXH0tAk5iyb29PIwO-GuxWpTD2UIXuiwen8YB2q"
         alt="Todo app"
       />
       {filterError && (
-        <div>
+        <div className={styles.errorBox}>
           <p>{filterError}</p>
 
           <button
@@ -302,7 +324,7 @@ function TodosPage() {
       )}
 
       {error && (
-        <div>
+          <div className={styles.errorBox}>
           <p>{error}</p>
 
           <button
@@ -317,7 +339,7 @@ function TodosPage() {
         </div>
       )}
 
-      {isTodoListLoading && <p>Loading todos...</p>}
+      {isTodoListLoading && ( <p className={styles.loadingMessage}>Loading todos...</p>)}
 
       <SortBy
         sortBy={sortBy}

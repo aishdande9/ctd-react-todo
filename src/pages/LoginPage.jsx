@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
-import '../features/Logon.css';
+import styles from "./LoginPage.module.css";
 
 function LoginPage() {
     const { login, isAuthenticated } = useAuth();
@@ -37,12 +37,12 @@ function LoginPage() {
     setIsLoggingOn(false);
   };
     return (
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className={styles.loginForm} onSubmit={handleSubmit}>
         <h2>Log In</h2>
     
-        {authError && <p className="error-message">{authError}</p>}
+        {authError && <p className={styles.errorMessage}>{authError}</p>}
     
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -53,7 +53,7 @@ function LoginPage() {
           />
         </div>
     
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password</label>
           <input
             id="password"

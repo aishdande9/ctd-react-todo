@@ -1,14 +1,14 @@
 
-  import './AboutPage.css';
+  import styles from './AboutPage.module.css';
 
   function AboutPage() {
     return (
-      <div className="about-page">
-        <section className="about-card">
+      <div className={styles.aboutPage}>
+      <section className={styles.aboutCard}>
           <h1>About This Todo App</h1>
 
           <img
-  className="about-image"
+className={styles.aboutImage}
   src="https://plus.unsplash.com/premium_photo-1681487870238-4a2dfddc6bcb?fm=jpg&q=60&w=3000&auto=format&fit=crop"
   alt="Todo List"
 />
